@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownlocationproject/api/LocationApi.dart';
 import 'package:myownlocationproject/ui/Weather.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,6 +13,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+  @override
+  void initState() { 
+    super.initState();
+    getCurrentLocation();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -21,5 +30,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Weather(),
     );
+  }
+
+  getCurrentLocation() async {
+    LocationApi locationApi = LocationApi.getInstance();
+    final location = await locationApi.getLocation();
+    print (location.latitude);
+    print (location.longitude);
   }
 }
