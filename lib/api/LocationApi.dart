@@ -19,6 +19,6 @@ class LocationApi {
       }
       locationData = null;
     }
-    return locationData;
+    return locationData; 
   }
 }

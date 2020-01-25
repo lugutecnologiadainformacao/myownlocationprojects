@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:myownlocationproject/models/WeatherData.dart';
 
-class Weather extends StatelessWidget {
+class WeatherUI extends StatelessWidget {
+
+  final WeatherData weatherData;
+
+  // Construtor
+  WeatherUI({@required this.weatherData});
   
   
   @override
@@ -9,7 +16,7 @@ class Weather extends StatelessWidget {
     // Declare todos os widgets aqui
     Widget dateSection = Container(
       child: Text(
-        "10:00",
+        DateFormat('MMMM d, H:m').format(DateTime.now()),
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 24.0,
@@ -27,13 +34,14 @@ class Weather extends StatelessWidget {
         children: <Widget>[
           Text(
             //weatherData.temp.toStringAsFixed(0),
-            "Tempo",
+            weatherData.temp.toStringAsFixed(0),
             style: TextStyle(
+              color: Colors.white,
               fontSize: 40.0
             ),),
             Expanded(
               child: Container(
-                color: Colors.lightGreen,
+                //color: Colors.lightGreen,
                 padding: EdgeInsets.only(
                   top: 12.0
                 ),
@@ -43,14 +51,15 @@ class Weather extends StatelessWidget {
                 child: Text(
                   '\u2103',
                   style: TextStyle(
-                    fontSize: 24.0
+                    fontSize: 24.0,
+                    color: Colors.white
                   )
                 ),
               ),
             ),
             Image.network(
-              'https://openweathermap.org/img/wn/10d@2x.png',
-              //'https://openweathermap.org/img/w/${weatherData.icon}.png',
+              //'https://openweathermap.org/img/wn/10d@2x.png',
+              'https://openweathermap.org/img/w/${weatherData.icon}.png',
               width: 100.0,
               height: 100.0,
               fit: BoxFit.cover,
@@ -65,7 +74,8 @@ class Weather extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "São Francisco",
+            
+            weatherData.name,
             //weatherData.name,
             style: TextStyle(
               fontSize: 24.0,
@@ -74,8 +84,8 @@ class Weather extends StatelessWidget {
             ),
           ),
           Text(
-            //weatherData.main,
-            "Cloud",
+            weatherData.main,
+            //"Cloud",
             style: TextStyle(
               fontSize: 24.0,
               color: Colors.white

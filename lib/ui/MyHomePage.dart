@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownlocationproject/api/LocationApi.dart';
-import 'package:myownlocationproject/ui/Weather.dart';
+import 'package:myownlocationproject/api/WeatherApi.dart';
+import 'package:myownlocationproject/models/WeatherData.dart';
+import 'package:myownlocationproject/ui/WeatherUI.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -14,6 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  WeatherData _weatherData;
 
   @override
   void initState() { 
@@ -28,14 +31,29 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text("Location")
       ),
-      body: Weather(),
+      body: _weatherData != null ? WeatherUI(weatherData: this._weatherData) :
+        Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0,
+            valueColor: AlwaysStoppedAnimation(Colors.white),
+          ),
+        ),
     );
   }
 
   getCurrentLocation() async {
     LocationApi locationApi = LocationApi.getInstance();
     final location = await locationApi.getLocation();
+    loadWeather(lat: location.latitude, lon: location.longitude);
     print (location.latitude);
     print (location.longitude);
+  }
+
+  loadWeather ({double lat, double lon}) async {
+    WeatherApi weatherApi = WeatherApi.getInstance();
+    final data = await weatherApi.getWeather(lat: lat, lon: lon);
+    setState(() {
+      this._weatherData = data;
+    });
   }
 }
